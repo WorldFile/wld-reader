@@ -3,11 +3,12 @@
   "version": "0.9.0",
   "description": "Read World Files (e.g., .gfw, .jgw, .j2w, .pgw, .tfw, and .wld)",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "files": [
+    "index.js"
+  ],
   "scripts": {
-    "test": "node ./node_modules/.bin/mocha ./test/test.js --reporter spec"
+    "format": "npx prettier --print-width=160 --write *.js */*.js",
+    "test": "node ./test/test.js"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,6 @@
   },
   "homepage": "https://github.com/WorldFile/wld-reader#readme",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^7.0.0"
+    "flug": "^1.1.0"
   }
 }

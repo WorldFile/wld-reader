@@ -10,13 +10,12 @@ function parseText(text) {
 }
 
 module.exports = function readWorldFile(input, debug) {
-
-  if (typeof Buffer !== 'undefined' && Buffer.isBuffer(input)) {
+  if (typeof Buffer !== "undefined" && Buffer.isBuffer(input)) {
     input = input.toString();
   }
 
-  if (typeof ArrayBuffer !== 'undefined' && input instanceof ArrayBuffer) {
-    if (typeof TextDecoder !== 'undefined' && typeof DataView !== 'undefined') {
+  if (typeof ArrayBuffer !== "undefined" && input instanceof ArrayBuffer) {
+    if (typeof TextDecoder !== "undefined" && typeof DataView !== "undefined") {
       const dataView = new DataView(input);
       for (let i = 0; i < VALID_ENCODINGS.length; i++) {
         try {
@@ -42,7 +41,7 @@ module.exports = function readWorldFile(input, debug) {
     return parseText(decoded);
   }
 
-  if (typeof DataView !== 'undefined' && input instanceof DataView) {
+  if (typeof DataView !== "undefined" && input instanceof DataView) {
     const arrayBuffer = input.buffer;
     const decoded = String.fromCharCode.apply(null, new Uint8Array(arrayBuffer));
     return parseText(decoded);
@@ -51,4 +50,4 @@ module.exports = function readWorldFile(input, debug) {
   if (typeof input === "string") {
     return parseText(input);
   }
-}
+};

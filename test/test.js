@@ -1,46 +1,49 @@
-const { expect } = require('chai');
-const { readFileSync } = require('fs');
-const readWorldFile = require('../index.js');
+const test = require("flug");
+const { readFileSync } = require("fs");
+const readWorldFile = require("../index.js");
 
-function checkResults(results) {
-  expect(results.xScale).to.equal(2445.9849051249894);
-  expect(results.ySkew).to.equal(0);
-  expect(results.xSkew).to.equal(0);
-  expect(results.yScale).to.equal(-2445.98490512499);
-  expect(results.xOrigin).to.equal(7699959.850241235);
-  expect(results.yOrigin).to.equal(1323859.6754601842);
+function checkResults({ eq, results }) {
+  eq(results.xScale, 2445.9849051249894);
+  eq(results.ySkew, 0);
+  eq(results.xSkew, 0);
+  eq(results.yScale, -2445.98490512499);
+  eq(results.xOrigin, 7699959.850241235);
+  eq(results.yOrigin, 1323859.6754601842);
 }
 
-describe('Checking Binary Encodings', function() {
-  it('Should parse file in Buffer Format', function() {
-    const buffer = readFileSync('./test/data/gadas-export.pgw');
-    checkResults(readWorldFile(buffer));
-  });
-  it('Should parse file in ArrayBuffer Format', function() {
-    const data = readFileSync('./test/data/gadas-export.pgw');
-    const arrayBuffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength)
-    checkResults(readWorldFile(arrayBuffer));
-  });
-  it('Should parse file in Uint8Array Format', function() {
-    const buffer = readFileSync('./test/data/gadas-export.pgw');
-    const uint8Array = new Uint8Array(buffer);
-    checkResults(readWorldFile(uint8Array));
-  });
-  it('Should parse file in DataView Format', function() {
-    const data = readFileSync('./test/data/gadas-export.pgw');
-    const arrayBuffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
-    const dataView = new DataView(arrayBuffer);
-    checkResults(readWorldFile(dataView));
-  });
-  it('Should parse file in String Format', function() {
-    const data = `
-    2445.9849051249894
-    0
-    0
-    -2445.98490512499
-    7699959.850241235
-    1323859.6754601842
-    `;
-    checkResults(readWorldFile(data));
-  });
-})
+test("Should parse file in Buffer Format", ({ eq }) => {
+  const buffer = readFileSync("./test/data/gadas-export.pgw");
+  const results = readWorldFile(buffer);
+  checkResults({ eq, results });
+});
+test("Should parse file in ArrayBuffer Format", ({ eq }) => {
+  const data = readFileSync("./test/data/gadas-export.pgw");
+  const arrayBuffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
+  const results = readWorldFile(arrayBuffer);
+  checkResults({ eq, results });
+});
+test("Should parse file in Uint8Array Format", ({ eq }) => {
+  const buffer = readFileSync("./test/data/gadas-export.pgw");
+  const uint8Array = new Uint8Array(buffer);
+  const results = readWorldFile(uint8Array);
+  checkResults({ eq, results });
+});
+test("Should parse file in DataView Format", ({ eq }) => {
+  const data = readFileSync("./test/data/gadas-export.pgw");
+  const arrayBuffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
+  const dataView = new DataView(arrayBuffer);
+  const results = readWorldFile(dataView);
+  checkResults({ eq, results });
+});
+test("Should parse file in String Format", ({ eq }) => {
+  const data = `
+  2445.9849051249894
+  0
+  0
+  -2445.98490512499
+  7699959.850241235
+  1323859.6754601842
+  `;
+  const results = readWorldFile(data);
+  checkResults({ eq, results });
+});
