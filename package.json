@@ -1,6 +1,6 @@
 {
   "name": "wld-reader",
-  "version": "0.9.1",
+  "version": "1.0.0",
   "description": "Read World Files (e.g., .gfw, .jgw, .j2w, .pgw, .tfw, and .wld)",
   "main": "index.js",
   "files": [
