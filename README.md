@@ -15,7 +15,6 @@ const worldFile = `
 `;
 
 const result = readWorldFile(worldFile);
-/*
 {
   xScale: 2445.9849051249894,
   ySkew: 0,
@@ -24,7 +23,6 @@ const result = readWorldFile(worldFile);
   xOrigin: 7699959.850241235,
   yOrigin: 1323859.6754601842
 }
-*/
 ```
 
 ## advanced usage
