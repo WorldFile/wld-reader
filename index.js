@@ -2,14 +2,19 @@
 
 const VALID_ENCODINGS = ["utf-8", "utf-16le", "macintosh"];
 
-function parseText(text) {
+function parseText(text, { raw = false } = { raw: false }) {
   // check if text matches pattern found in world files
   const sep = /\r?\n/;
-  const [xScale, ySkew, xSkew, yScale, xOrigin, yOrigin] = text.split(sep).filter(Boolean).map(Number);
+  let lines = text
+    .split(sep)
+    .filter(Boolean)
+    .map((str) => str.trim());
+  if (raw !== true) lines = lines.map((str) => Number(str));
+  const [xScale, ySkew, xSkew, yScale, xOrigin, yOrigin] = lines;
   return { xScale, ySkew, xSkew, yScale, xOrigin, yOrigin };
 }
 
-module.exports = function readWorldFile(input, debug) {
+module.exports = function readWorldFile(input, { debug = false, raw = false } = { debug: false, raw: false }) {
   if (typeof Buffer !== "undefined" && Buffer.isBuffer(input)) {
     input = input.toString();
   }
@@ -22,7 +27,7 @@ module.exports = function readWorldFile(input, debug) {
           const encoding = VALID_ENCODINGS[i];
           const decoder = new TextDecoder(encoding);
           const decoded = decoder.decode(dataView);
-          const results = parseText(decoded);
+          const results = parseText(decoded, { raw });
           if (results) {
             return results;
           }
@@ -32,22 +37,22 @@ module.exports = function readWorldFile(input, debug) {
       }
     } else {
       const decoded = String.fromCharCode.apply(null, new Uint8Array(input));
-      return parseText(decoded);
+      return parseText(decoded, { raw });
     }
   }
 
   if (input instanceof Uint8Array) {
     const decoded = String.fromCharCode.apply(null, input);
-    return parseText(decoded);
+    return parseText(decoded, { raw });
   }
 
   if (typeof DataView !== "undefined" && input instanceof DataView) {
     const arrayBuffer = input.buffer;
     const decoded = String.fromCharCode.apply(null, new Uint8Array(arrayBuffer));
-    return parseText(decoded);
+    return parseText(decoded, { raw });
   }
 
   if (typeof input === "string") {
-    return parseText(input);
+    return parseText(input, { raw });
   }
 };

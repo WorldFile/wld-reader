@@ -1,7 +1,7 @@
 # wld-reader
 Read World Files (e.g., .gfw, .jgw, .j2w, .pgw, .tfw, and .wld)
 
-# usage
+## basic usage
 ```javascript
 const readWorldFile = require('wld-reader');
 
@@ -27,8 +27,21 @@ const result = readWorldFile(worldFile);
 */
 ```
 
-# Reference
+## advanced usage
+If you want to preserve the raw string of text:
+```js
+const result = readWorldFile(worldFile, { raw: true });
+{
+  xScale: "2445.9849051249894",
+  ySkew: "0",
+  xSkew: "0",
+  yScale: "-2445.98490512499",
+  xOrigin: "7699959.850241235",
+  yOrigin: "1323859.6754601842"
+}
+```
+## Reference
 https://en.wikipedia.org/wiki/World_file
 
-# Support
+## Support
 Post an issue at http://github.com/worldfile/wld-reader/issues or email the package author at daniel.j.dufour@gmail.com
